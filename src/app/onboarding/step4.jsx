@@ -19,7 +19,7 @@ const step3 = () => {
         </View>
         <View className="mb-[20%]  ">
           <ProgressSlider activeIndex={3} />
-          <Button onPress={() => router.push("/onboarding/step1")}>Next</Button>
+          <Button onPress={() => router.push("/auth/signIn")}>Next</Button>
         </View>
       </ImageBackground>
     </SafeAreaView>

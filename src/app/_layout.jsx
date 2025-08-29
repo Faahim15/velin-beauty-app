@@ -1,3 +1,4 @@
+import { SafeAreaView } from "react-native";
 import { Stack } from "expo-router";
 import "../../global.css";
 import { StatusBar } from "expo-status-bar";
@@ -17,22 +18,17 @@ export default function RootLayout() {
     Poppins_700Bold,
   });
 
-  if (!fontsLoaded) return null; // Wait until fonts are loaded
+  if (!fontsLoaded) return null;
 
   return (
-    <>
-      {/* Status Bar */}
-      {/* <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      /> */}
+    <SafeAreaView style={{ flex: 1 }}>
+      {/* Optional: Status Bar */}
+      <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
 
-      {/* Stack Navigator */}
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" options={{ title: "Home" }} />
         <Stack.Screen name="onboarding" />
       </Stack>
-    </>
+    </SafeAreaView>
   );
 }
