@@ -3,6 +3,7 @@ import WelcomeMessage from "../components/auth/WelcomeMessage";
 import Input from "../components/auth/Input";
 import PasswordInput from "../components/auth/PasswordInput";
 import AuthButton from "../components/auth/AuthButton";
+import { Link } from "expo-router";
 
 export default function SignInScreen() {
   return (
@@ -29,7 +30,9 @@ export default function SignInScreen() {
         <View className="mt-[1.18%]">
           <Text className="font-poppinsMedium text-center text-xs text-[#1B1B25]">
             Don't have an account?{"  "}
-            <Text className="font-poppinsBold text-xs">Sign Up</Text>
+            <Link href="auth/createAccount">
+              <Text className="font-poppinsBold text-xs">Sign Up</Text>
+            </Link>
           </Text>
         </View>
       </View>

@@ -11,6 +11,7 @@ export default function Layout() {
       />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="signIn" />
+        <Stack.Screen name="createAccount" />
       </Stack>
     </SafeAreaView>
   );
