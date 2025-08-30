@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 export default function createAccount() {
   const router = useRouter();
   return (
-    <View className="flex-1  justify-center items-center">
+    <View className="flex-1 bg-white  justify-center items-center">
       <View className=" ">
         <Image source={require("../../../assets/auth/Vector.png")} />
       </View>

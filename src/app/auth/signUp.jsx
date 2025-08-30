@@ -17,7 +17,7 @@ export default function SignUp() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
+      style={{ flex: 1, backgroundColor: "white" }}
       keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0} // Adjust if you have a header
     >
       <AuthHeader />

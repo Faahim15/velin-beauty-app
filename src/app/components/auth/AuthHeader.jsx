@@ -2,7 +2,10 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-export default function AuthHeader() {
+export default function AuthHeader({
+  title = "Create Your Account",
+  subtitle = "and start trying our services!",
+}) {
   const router = useRouter();
   return (
     <View>
@@ -12,11 +15,9 @@ export default function AuthHeader() {
         </TouchableOpacity>
       </View>
       <View className="px-[15%] mt-[2.5%]">
-        <Text className="font-poppinsMedium text-center text-2xl">
-          Create Your Account
-        </Text>
+        <Text className="font-poppinsMedium text-center text-2xl">{title}</Text>
         <Text className="font-poppins mt-[1.2%] text-center text-sm">
-          and start trying our services!
+          {subtitle}
         </Text>
       </View>
     </View>

@@ -7,7 +7,7 @@ import { Link } from "expo-router";
 
 export default function SignInScreen() {
   return (
-    <View>
+    <View className="flex-1 bg-white">
       <WelcomeMessage />
       <View className="px-[6%] mt-[8.53%]">
         <Input
@@ -21,9 +21,11 @@ export default function SignInScreen() {
       </View>
       <View className="px-[6%] mt-[5.21%]">
         <PasswordInput />
-        <Text className="font-poppinsMedium text-right text-[#060605]">
-          Forget Password?
-        </Text>
+        <Link href="auth/forgetPassword">
+          <Text className="font-poppinsMedium text-right text-[#060605]">
+            Forget Password?
+          </Text>
+        </Link>
       </View>
       <View className="mt-[15%]">
         <AuthButton>Sign In</AuthButton>

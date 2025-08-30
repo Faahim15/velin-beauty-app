@@ -4,24 +4,16 @@ import ProfilePictureUpload from "../components/auth/PictureUpload";
 import PasswordInput from "../components/auth/PasswordInput";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import CustomPassInput from "../components/auth/CustomPassInput";
 export default function register() {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   return (
     <View className="flex-1 bg-white">
       <AuthHeader />
       <ProfilePictureUpload />
-      <View className="px-[6%] mt-[1.8%]">
-        <Text className="font-poppins mb-[1.8%] text-base text-[#060605]">
-          New Password
-        </Text>
-        <PasswordInput placeholder="New password" />
-      </View>
-      <View className="px-[6%] mt-[1.8%]">
-        <Text className="font-poppins mb-[1.8%] text-base text-[#060605]">
-          Confirm Password
-        </Text>
-        <PasswordInput placeholder="Confirm password" />
-      </View>
+
+      <CustomPassInput passText="New Password" />
+      <CustomPassInput passText="Confirm Password" />
 
       <View className=" mt-[10%] ">
         {/* Terms and Conditions */}
