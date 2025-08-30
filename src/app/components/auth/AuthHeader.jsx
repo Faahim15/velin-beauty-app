@@ -6,7 +6,7 @@ export default function AuthHeader() {
   const router = useRouter();
   return (
     <View>
-      <View className="mt-[15%] px-[6.75%]">
+      <View className="mt-[15%] px-[6%]">
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="#1B1B25" />
         </TouchableOpacity>

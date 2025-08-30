@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { verticalScale, scale } from "../adaptiveness/adaptiveness";
 import { useState } from "react";
 
-export default function PasswordInput() {
+export default function PasswordInput({ placeholder = "Enter your password" }) {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <View className="">
@@ -16,7 +16,7 @@ export default function PasswordInput() {
         />
         <TextInput
           className="flex-1 font-poppins ml-[3%] pt-[4%] text-sm   text-black "
-          placeholder="password"
+          placeholder={placeholder}
           placeholderTextColor="#898989"
           secureTextEntry={!showPassword}
           //   style={{ color: "#000", paddingTop: verticalScale(16) }}

@@ -21,7 +21,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.fahim15.Velusyapp"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -30,6 +31,13 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "56281426-511a-4f7d-b3b7-12fe7b6f10c5"
+      }
+    },
+    "owner": "fahim15"
   }
 }
