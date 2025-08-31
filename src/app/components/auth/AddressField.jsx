@@ -5,736 +5,483 @@ import {
   TouchableOpacity,
   Modal,
   FlatList,
-  TextInput,
+  Alert,
   ActivityIndicator,
-  SafeAreaView,
+  TextInput,
 } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
 
-const SwitzerlandCityPicker = ({
-  onCitySelect,
-  placeholder = "Select your city in Switzerland",
-}) => {
-  const [showCityModal, setShowCityModal] = useState(false);
+// Replace with your Google Places API key
+const GOOGLE_PLACES_API_KEY = "AIzaSyAszXC1be8aJ37eHuNcBm_-O1clWkPUwV4";
+
+export default function App() {
   const [selectedCity, setSelectedCity] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStreet, setSelectedStreet] = useState(null);
   const [cities, setCities] = useState([]);
-  const [filteredCities, setFilteredCities] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [streets, setStreets] = useState([]);
+  const [cityModalVisible, setCityModalVisible] = useState(false);
+  const [streetModalVisible, setStreetModalVisible] = useState(false);
+  const [loadingCities, setLoadingCities] = useState(false);
+  const [loadingStreets, setLoadingStreets] = useState(false);
+  const [citySearchText, setCitySearchText] = useState("");
+  const [streetSearchText, setStreetSearchText] = useState("");
+  const [isMandatory, setIsMandatory] = useState(false);
 
-  // Comprehensive Swiss cities data with postal codes
-  const swissCitiesData = [
-    // Major Cities
-    {
-      name: "Zurich",
-      postalCode: "8000",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 415367,
-    },
-    {
-      name: "Geneva",
-      postalCode: "1200",
-      canton: "Geneva",
-      cantonCode: "GE",
-      population: 201818,
-    },
-    {
-      name: "Basel",
-      postalCode: "4000",
-      canton: "Basel-Stadt",
-      cantonCode: "BS",
-      population: 177654,
-    },
-    {
-      name: "Bern",
-      postalCode: "3000",
-      canton: "Bern",
-      cantonCode: "BE",
-      population: 133883,
-    },
-    {
-      name: "Lausanne",
-      postalCode: "1000",
-      canton: "Vaud",
-      cantonCode: "VD",
-      population: 139111,
-    },
-    {
-      name: "Winterthur",
-      postalCode: "8400",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 114220,
-    },
-    {
-      name: "Lucerne",
-      postalCode: "6000",
-      canton: "Lucerne",
-      cantonCode: "LU",
-      population: 82257,
-    },
-    {
-      name: "St. Gallen",
-      postalCode: "9000",
-      canton: "St. Gallen",
-      cantonCode: "SG",
-      population: 76213,
-    },
-    {
-      name: "Lugano",
-      postalCode: "6900",
-      canton: "Ticino",
-      cantonCode: "TI",
-      population: 62315,
-    },
-    {
-      name: "Biel/Bienne",
-      postalCode: "2500",
-      canton: "Bern",
-      cantonCode: "BE",
-      population: 55206,
-    },
-
-    // Medium Cities
-    {
-      name: "Thun",
-      postalCode: "3600",
-      canton: "Bern",
-      cantonCode: "BE",
-      population: 43476,
-    },
-    {
-      name: "Köniz",
-      postalCode: "3098",
-      canton: "Bern",
-      cantonCode: "BE",
-      population: 42717,
-    },
-    {
-      name: "La Chaux-de-Fonds",
-      postalCode: "2300",
-      canton: "Neuchâtel",
-      cantonCode: "NE",
-      population: 38155,
-    },
-    {
-      name: "Schaffhausen",
-      postalCode: "8200",
-      canton: "Schaffhausen",
-      cantonCode: "SH",
-      population: 36952,
-    },
-    {
-      name: "Fribourg",
-      postalCode: "1700",
-      canton: "Fribourg",
-      cantonCode: "FR",
-      population: 38365,
-    },
-    {
-      name: "Chur",
-      postalCode: "7000",
-      canton: "Graubünden",
-      cantonCode: "GR",
-      population: 36336,
-    },
-    {
-      name: "Neuchâtel",
-      postalCode: "2000",
-      canton: "Neuchâtel",
-      cantonCode: "NE",
-      population: 33712,
-    },
-    {
-      name: "Uster",
-      postalCode: "8610",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 35337,
-    },
-    {
-      name: "Sion",
-      postalCode: "1950",
-      canton: "Valais",
-      cantonCode: "VS",
-      population: 34978,
-    },
-    {
-      name: "Emmen",
-      postalCode: "6020",
-      canton: "Lucerne",
-      cantonCode: "LU",
-      population: 30806,
-    },
-
-    // Additional Cities
-    {
-      name: "Kriens",
-      postalCode: "6010",
-      canton: "Lucerne",
-      cantonCode: "LU",
-      population: 27735,
-    },
-    {
-      name: "Yverdon-les-Bains",
-      postalCode: "1400",
-      canton: "Vaud",
-      cantonCode: "VD",
-      population: 30143,
-    },
-    {
-      name: "Zug",
-      postalCode: "6300",
-      canton: "Zug",
-      cantonCode: "ZG",
-      population: 30934,
-    },
-    {
-      name: "Frauenfeld",
-      postalCode: "8500",
-      canton: "Thurgau",
-      cantonCode: "TG",
-      population: 25010,
-    },
-    {
-      name: "Rapperswil-Jona",
-      postalCode: "8640",
-      canton: "St. Gallen",
-      cantonCode: "SG",
-      population: 27474,
-    },
-    {
-      name: "Dübendorf",
-      postalCode: "8600",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 28583,
-    },
-    {
-      name: "Monthey",
-      postalCode: "1870",
-      canton: "Valais",
-      cantonCode: "VS",
-      population: 17825,
-    },
-    {
-      name: "Dietikon",
-      postalCode: "8953",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 27056,
-    },
-    {
-      name: "Riehen",
-      postalCode: "4125",
-      canton: "Basel-Stadt",
-      cantonCode: "BS",
-      population: 21016,
-    },
-    {
-      name: "Wädenswil",
-      postalCode: "8820",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 22334,
-    },
-    {
-      name: "Renens",
-      postalCode: "1020",
-      canton: "Vaud",
-      cantonCode: "VD",
-      population: 21168,
-    },
-    {
-      name: "Kreuzlingen",
-      postalCode: "8280",
-      canton: "Thurgau",
-      cantonCode: "TG",
-      population: 22081,
-    },
-    {
-      name: "Allschwil",
-      postalCode: "4123",
-      canton: "Basel-Landschaft",
-      cantonCode: "BL",
-      population: 20530,
-    },
-    {
-      name: "Bellinzona",
-      postalCode: "6500",
-      canton: "Ticino",
-      cantonCode: "TI",
-      population: 43360,
-    },
-    {
-      name: "Baar",
-      postalCode: "6340",
-      canton: "Zug",
-      cantonCode: "ZG",
-      population: 24289,
-    },
-    {
-      name: "Nyon",
-      postalCode: "1260",
-      canton: "Vaud",
-      cantonCode: "VD",
-      population: 21718,
-    },
-    {
-      name: "Freienbach",
-      postalCode: "8808",
-      canton: "Schwyz",
-      cantonCode: "SZ",
-      population: 16642,
-    },
-    {
-      name: "Carouge",
-      postalCode: "1227",
-      canton: "Geneva",
-      cantonCode: "GE",
-      population: 22576,
-    },
-    {
-      name: "Aarau",
-      postalCode: "5000",
-      canton: "Aargau",
-      cantonCode: "AG",
-      population: 21726,
-    },
-    {
-      name: "Pully",
-      postalCode: "1009",
-      canton: "Vaud",
-      cantonCode: "VD",
-      population: 18424,
-    },
-
-    // Smaller Cities & Towns
-    {
-      name: "Muttenz",
-      postalCode: "4132",
-      canton: "Basel-Landschaft",
-      cantonCode: "BL",
-      population: 17576,
-    },
-    {
-      name: "Vernier",
-      postalCode: "1214",
-      canton: "Geneva",
-      cantonCode: "GE",
-      population: 35032,
-    },
-    {
-      name: "Lancy",
-      postalCode: "1212",
-      canton: "Geneva",
-      cantonCode: "GE",
-      population: 32802,
-    },
-    {
-      name: "Pratteln",
-      postalCode: "4133",
-      canton: "Basel-Landschaft",
-      cantonCode: "BL",
-      population: 16321,
-    },
-    {
-      name: "Onex",
-      postalCode: "1213",
-      canton: "Geneva",
-      cantonCode: "GE",
-      population: 18345,
-    },
-    {
-      name: "Wetzikon",
-      postalCode: "8620",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 24301,
-    },
-    {
-      name: "Morges",
-      postalCode: "1110",
-      canton: "Vaud",
-      cantonCode: "VD",
-      population: 15823,
-    },
-    {
-      name: "Bülach",
-      postalCode: "8180",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 21265,
-    },
-    {
-      name: "Reinach",
-      postalCode: "4153",
-      canton: "Basel-Landschaft",
-      cantonCode: "BL",
-      population: 19027,
-    },
-    {
-      name: "Horgen",
-      postalCode: "8810",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 22773,
-    },
-    {
-      name: "Nyon",
-      postalCode: "1260",
-      canton: "Vaud",
-      cantonCode: "VD",
-      population: 21718,
-    },
-    {
-      name: "Meyrin",
-      postalCode: "1217",
-      canton: "Geneva",
-      cantonCode: "GE",
-      population: 24512,
-    },
-    {
-      name: "Kloten",
-      postalCode: "8302",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 20608,
-    },
-    {
-      name: "Wil",
-      postalCode: "9500",
-      canton: "St. Gallen",
-      cantonCode: "SG",
-      population: 24077,
-    },
-    {
-      name: "Baden",
-      postalCode: "5400",
-      canton: "Aargau",
-      cantonCode: "AG",
-      population: 19658,
-    },
-    {
-      name: "Affoltern am Albis",
-      postalCode: "8910",
-      canton: "Zurich",
-      cantonCode: "ZH",
-      population: 12234,
-    },
-    {
-      name: "Steffisburg",
-      postalCode: "3612",
-      canton: "Bern",
-      cantonCode: "BE",
-      population: 15942,
-    },
-    {
-      name: "Olten",
-      postalCode: "4600",
-      canton: "Solothurn",
-      cantonCode: "SO",
-      population: 18135,
-    },
-    {
-      name: "Gossau",
-      postalCode: "9200",
-      canton: "St. Gallen",
-      cantonCode: "SG",
-      population: 17945,
-    },
-    {
-      name: "Martigny",
-      postalCode: "1920",
-      canton: "Valais",
-      cantonCode: "VS",
-      population: 18365,
-    },
-    {
-      name: "Herisau",
-      postalCode: "9100",
-      canton: "Appenzell Ausserrhoden",
-      cantonCode: "AR",
-      population: 15688,
-    },
-    {
-      name: "Solothurn",
-      postalCode: "4500",
-      canton: "Solothurn",
-      cantonCode: "SO",
-      population: 16777,
-    },
-    {
-      name: "Burgdorf",
-      postalCode: "3400",
-      canton: "Bern",
-      cantonCode: "BE",
-      population: 16512,
-    },
-    {
-      name: "Langenthal",
-      postalCode: "4900",
-      canton: "Bern",
-      cantonCode: "BE",
-      population: 15817,
-    },
-    {
-      name: "Sierre",
-      postalCode: "3960",
-      canton: "Valais",
-      cantonCode: "VS",
-      population: 16332,
-    },
-    {
-      name: "Schwyz",
-      postalCode: "6430",
-      canton: "Schwyz",
-      cantonCode: "SZ",
-      population: 15435,
-    },
-    {
-      name: "Liestal",
-      postalCode: "4410",
-      canton: "Basel-Landschaft",
-      cantonCode: "BL",
-      population: 14627,
-    },
-    {
-      name: "Rheinfelden",
-      postalCode: "4310",
-      canton: "Aargau",
-      cantonCode: "AG",
-      population: 13347,
-    },
-    {
-      name: "Grenchen",
-      postalCode: "2540",
-      canton: "Solothurn",
-      cantonCode: "SO",
-      population: 16768,
-    },
-    {
-      name: "Rorschach",
-      postalCode: "9400",
-      canton: "St. Gallen",
-      cantonCode: "SG",
-      population: 9274,
-    },
-    {
-      name: "Arbon",
-      postalCode: "9320",
-      canton: "Thurgau",
-      cantonCode: "TG",
-      population: 14376,
-    },
+  // Pre-populate with major Swiss cities
+  const popularSwissCities = [
+    "Zurich",
+    "Geneva",
+    "Basel",
+    "Bern",
+    "Lausanne",
+    "Winterthur",
+    "Lucerne",
+    "St. Gallen",
+    "Lugano",
+    "Biel",
+    "Thun",
+    "Köniz",
+    "La Chaux-de-Fonds",
+    "Schaffhausen",
+    "Fribourg",
+    "Chur",
   ];
 
-  // Try alternative APIs or use local data
-  const fetchSwissCities = async () => {
-    setLoading(true);
+  // Fetch cities using Google Places API (Switzerland only)
+  const fetchCities = async (searchQuery = "") => {
+    setLoadingCities(true);
 
-    try {
-      // Try GeoNames API as alternative
-      const response = await fetch(
-        "https://secure.geonames.org/searchJSON?country=CH&featureClass=P&maxRows=1000&username=demo"
-      );
+    // If no search query, show popular Swiss cities
+    if (!searchQuery.trim()) {
+      try {
+        const cityPromises = popularSwissCities.map(async (cityName) => {
+          const response = await fetch(
+            `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(cityName + ", Switzerland")}&inputtype=textquery&fields=place_id,name,formatted_address&key=${GOOGLE_PLACES_API_KEY}`
+          );
+          const data = await response.json();
+          if (data.status === "OK" && data.candidates.length > 0) {
+            const place = data.candidates[0];
+            return {
+              id: place.place_id,
+              name: cityName,
+              description: place.formatted_address,
+              place_id: place.place_id,
+            };
+          }
+          return null;
+        });
 
-      if (response.ok) {
+        const results = await Promise.all(cityPromises);
+        const validCities = results.filter((city) => city !== null);
+        setCities(validCities);
+      } catch (error) {
+        console.error("Error fetching popular cities:", error);
+        setCities([]);
+      }
+    } else {
+      // Search for cities based on user input
+      try {
+        const response = await fetch(
+          `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(searchQuery)}&types=(cities)&components=country:ch&key=${GOOGLE_PLACES_API_KEY}`
+        );
         const data = await response.json();
 
-        if (data.geonames && data.geonames.length > 0) {
-          const apiCities = data.geonames
-            .map((city, index) => ({
-              name: city.name,
-              postalCode: city.adminCode2 || "0000",
-              canton: city.adminName1,
-              cantonCode: city.adminCode1,
-              population: city.population || 0,
-              id: `${city.geonameId || index}-${city.name}`,
-            }))
-            .sort((a, b) => b.population - a.population);
-
-          setCities(apiCities);
-          setFilteredCities(apiCities);
-          setLoading(false);
-          return;
+        if (data.status === "OK" && data.predictions) {
+          const cityList = data.predictions.map((prediction) => ({
+            id: prediction.place_id,
+            name: prediction.structured_formatting.main_text,
+            description: prediction.description,
+            place_id: prediction.place_id,
+          }));
+          setCities(cityList);
+        } else if (data.status === "REQUEST_DENIED") {
+          Alert.alert(
+            "API Error",
+            "Please check your Google Places API key and ensure Places API is enabled."
+          );
+        } else {
+          setCities([]);
         }
+      } catch (error) {
+        Alert.alert(
+          "Error",
+          "Failed to fetch cities. Please check your internet connection."
+        );
+        console.error("Error fetching cities:", error);
       }
-    } catch (err) {
-      console.log("API failed, using local data:", err.message);
     }
-
-    // Use comprehensive local data
-    setCities(swissCitiesData.sort((a, b) => b.population - a.population));
-    setFilteredCities(
-      swissCitiesData.sort((a, b) => b.population - a.population)
-    );
-    setLoading(false);
+    setLoadingCities(false);
   };
 
-  // Filter cities based on search query
-  useEffect(() => {
-    if (!searchQuery.trim()) {
-      setFilteredCities(cities);
-    } else {
-      const query = searchQuery.toLowerCase();
-      const filtered = cities.filter(
-        (city) =>
-          city.name.toLowerCase().includes(query) ||
-          city.postalCode.includes(searchQuery) ||
-          (city.canton && city.canton.toLowerCase().includes(query)) ||
-          (city.cantonCode && city.cantonCode.toLowerCase().includes(query))
+  // Fetch street addresses in Switzerland
+  const fetchStreets = async (searchQuery = "") => {
+    if (!selectedCity) return;
+
+    setLoadingStreets(true);
+    try {
+      let searchInput = selectedCity.name + ", Switzerland";
+      if (searchQuery.trim()) {
+        searchInput = searchQuery + ", " + selectedCity.name + ", Switzerland";
+      }
+
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(searchInput)}&types=address&components=country:ch&key=${GOOGLE_PLACES_API_KEY}`
       );
-      setFilteredCities(filtered);
-    }
-  }, [searchQuery, cities]);
+      const data = await response.json();
 
-  const handleOpenModal = () => {
-    setShowCityModal(true);
-    if (cities.length === 0) {
-      fetchSwissCities();
+      if (data.status === "OK" && data.predictions) {
+        const streetList = data.predictions.map((prediction) => ({
+          id: prediction.place_id,
+          name:
+            prediction.structured_formatting.main_text ||
+            prediction.description,
+          description: prediction.description,
+          place_id: prediction.place_id,
+        }));
+        setStreets(streetList);
+      } else {
+        setStreets([]);
+      }
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        "Failed to fetch street addresses. Please check your internet connection."
+      );
+      console.error("Error fetching streets:", error);
+    } finally {
+      setLoadingStreets(false);
     }
   };
+
+  // Load popular cities when component mounts
+  useEffect(() => {
+    fetchCities();
+  }, []);
+
+  // Debounced search for cities
+  useEffect(() => {
+    if (!cityModalVisible) return;
+
+    const timeoutId = setTimeout(() => {
+      fetchCities(citySearchText);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [citySearchText, cityModalVisible]);
+
+  // Debounced search for streets
+  useEffect(() => {
+    if (!streetModalVisible || !selectedCity) return;
+
+    const timeoutId = setTimeout(() => {
+      fetchStreets(streetSearchText);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [streetSearchText, streetModalVisible, selectedCity]);
 
   const handleCitySelect = (city) => {
     setSelectedCity(city);
-    setShowCityModal(false);
-    setSearchQuery("");
-
-    if (onCitySelect) {
-      onCitySelect({
-        city: city.name,
-        postalCode: city.postalCode,
-        canton: city.canton,
-        cantonCode: city.cantonCode,
-        population: city.population,
-        fullLocation: `${city.name}, ${city.cantonCode}, Switzerland`,
-        displayText: `${city.name} (${city.postalCode})`,
-      });
-    }
+    setSelectedStreet(null); // Reset street selection
+    setCityModalVisible(false);
+    setCitySearchText("");
+    setStreetSearchText("");
+    setStreets([]);
   };
 
-  const displayText = () => {
+  const handleStreetSelect = (street) => {
+    setSelectedStreet(street);
+    setStreetModalVisible(false);
+    setStreetSearchText("");
+  };
+
+  const openCityModal = () => {
+    setCityModalVisible(true);
+    setCitySearchText("");
+    fetchCities(); // Load popular cities
+  };
+
+  const openStreetModal = () => {
     if (selectedCity) {
-      return `${selectedCity.name} (${selectedCity.postalCode})`;
+      setStreetModalVisible(true);
+      setStreetSearchText("");
+      fetchStreets(); // Load streets for selected city
+    } else {
+      Alert.alert("Please select a city first");
     }
-    return placeholder;
   };
 
-  return (
-    <View className="my-2">
-      {/* Main Input Field */}
-      <TouchableOpacity
-        className="flex-row items-center justify-between border-2 border-red-600 rounded-xl px-4 py-4 bg-white shadow-sm"
-        onPress={handleOpenModal}
-        activeOpacity={0.7}
-      >
-        <Text
-          className={`text-base flex-1 ${!selectedCity ? "text-gray-400" : "text-gray-900 font-medium"}`}
-        >
-          {displayText()}
-        </Text>
-        <View className="flex-row items-center ml-3">
-          <Text className="text-xl">🇨🇭</Text>
-          <Text className="text-sm text-red-600 ml-2 font-bold">▼</Text>
-        </View>
-      </TouchableOpacity>
+  const renderCityItem = ({ item }) => (
+    <TouchableOpacity
+      className="py-4 px-4 border-b border-gray-200 active:bg-gray-50"
+      onPress={() => handleCitySelect(item)}
+    >
+      <Text className="text-base font-medium text-gray-800">{item.name}</Text>
+      <Text className="text-sm text-gray-500 mt-1">{item.description}</Text>
+    </TouchableOpacity>
+  );
 
-      {/* City Selection Modal */}
+  const renderStreetItem = ({ item }) => (
+    <TouchableOpacity
+      className="py-4 px-4 border-b border-gray-200 active:bg-gray-50"
+      onPress={() => handleStreetSelect(item)}
+    >
+      <Text className="text-base font-medium text-gray-800">{item.name}</Text>
+      <Text className="text-sm text-gray-500 mt-1">{item.description}</Text>
+    </TouchableOpacity>
+  );
+
+  const handleIbutton = () => {
+    setIsMandatory(!isMandatory);
+  };
+  return (
+    <View className="flex-1 bg-white">
+      {/* <StatusBar style="auto" /> */}
+
+      <View className="">
+        {/* City Dropdown */}
+        <View className="mb-0">
+          <View className="flex-row items-center mb-2">
+            <Text className="font-poppins text-base text-[#060605]">City</Text>
+            <TouchableOpacity
+              className="flex-row gap-[5%]"
+              onPress={handleIbutton}
+            >
+              <View className="w-4 h-4  rounded-full border border-black bg-white ml-2 items-center justify-center">
+                <Text className="text-black font-poppins text-xs">i</Text>
+              </View>
+              {isMandatory && (
+                <Text className="text-black font-poppins text-xs">
+                  Mandatory
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            className="w-full border border-black rounded-md py-[4%] px-[4%]  justify-between flex-row items-center bg-white shadow-sm"
+            onPress={openCityModal}
+          >
+            <Text
+              className={
+                selectedCity
+                  ? "text-gray-800 font-poppins text-base flex-1"
+                  : "text-gray-400 font-poppins text-base flex-1"
+              }
+            >
+              {selectedCity ? selectedCity.name : "City"}
+            </Text>
+            <Ionicons
+              className="pt-[1%]"
+              name="chevron-down-outline"
+              size={16}
+              color="#000"
+            />
+          </TouchableOpacity>
+        </View>
+
+        {/* Street Address Dropdown */}
+        <View className="mt-[2.36%]">
+          <View className="flex-row items-center mb-2">
+            <Text className="font-poppins text-base text-[#060605]">
+              Street Address
+            </Text>
+            <TouchableOpacity
+              className="flex-row gap-[5%]"
+              onPress={handleIbutton}
+            >
+              <View className="w-4 h-4  rounded-full border border-black bg-white ml-2 items-center justify-center">
+                <Text className="text-black font-poppins text-xs">i</Text>
+              </View>
+              {isMandatory && (
+                <Text className="text-black font-poppins text-xs">
+                  Mandatory
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            className={`w-full border  rounded-md py-[4%] px-[4%] justify-between flex-row items-center  ${
+              selectedCity
+                ? "border-black  bg-white"
+                : "border-gray-200 bg-gray-100"
+            }`}
+            onPress={openStreetModal}
+            disabled={!selectedCity}
+          >
+            <Text
+              className={`text-base font-poppins flex-1 ${
+                selectedStreet
+                  ? "text-gray-800 "
+                  : selectedCity
+                    ? "text-gray-400"
+                    : "text-gray-300"
+              }`}
+            >
+              {selectedStreet ? selectedStreet.name : "Select Street Address"}
+            </Text>
+            <Ionicons
+              className="pt-[1%]"
+              name="chevron-down-outline"
+              size={16}
+              color={selectedCity ? "#000" : "#9CA3AF"}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* City Dropdown Modal */}
       <Modal
-        visible={showCityModal}
+        visible={cityModalVisible}
         animationType="slide"
         presentationStyle="pageSheet"
-        onRequestClose={() => setShowCityModal(false)}
       >
-        <SafeAreaView className="flex-1 bg-white">
-          {/* Modal Header */}
-          <View className="flex-row items-center justify-between px-5 py-4 bg-red-600 shadow-sm">
-            <TouchableOpacity
-              onPress={() => setShowCityModal(false)}
-              className="py-2 px-2"
-              activeOpacity={0.7}
-            >
-              <Text className="text-base text-white font-semibold">Cancel</Text>
-            </TouchableOpacity>
-
-            <Text className="text-lg font-bold text-white flex-1 text-center">
-              🇨🇭 Swiss Cities
+        <View className="flex-1 bg-white">
+          {/* Header */}
+          <View className="flex-row justify-between items-center p-4 border-b border-gray-200 bg-gray-50">
+            <Text className="text-lg font-semibold text-gray-800">
+              Select City in Switzerland
             </Text>
-
-            <View className="w-16" />
+            <TouchableOpacity
+              onPress={() => {
+                setCityModalVisible(false);
+                setCitySearchText("");
+              }}
+              className="px-3 py-1"
+            >
+              <Text className="text-blue-600 text-base font-medium">
+                Cancel
+              </Text>
+            </TouchableOpacity>
           </View>
 
           {/* Search Input */}
-          <View className="px-4 py-4 bg-gray-50 border-b border-gray-200">
+          <View className="p-4 bg-white border-b border-gray-100">
             <TextInput
-              className="border border-gray-300 rounded-xl px-4 py-3 text-base bg-white shadow-sm"
-              placeholder="Search cities, postal codes, or cantons..."
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              autoCapitalize="words"
-              placeholderTextColor="#9CA3AF"
+              className="w-full h-10 border border-gray-300 rounded-lg px-3 text-base bg-gray-50"
+              placeholder="Search Swiss cities (e.g., Zurich, Geneva)..."
+              value={citySearchText}
+              onChangeText={setCitySearchText}
+              autoFocus={false}
             />
           </View>
 
-          {/* Loading State */}
-          {loading && (
-            <View className="flex-1 justify-center items-center py-20">
-              <ActivityIndicator size="large" color="#dc2626" />
-              <Text className="mt-4 text-lg text-gray-600 font-medium">
-                Loading Swiss cities...
+          {/* Results */}
+          {loadingCities ? (
+            <View className="flex-1 justify-center items-center">
+              <ActivityIndicator size="large" color="#3B82F6" />
+              <Text className="text-gray-600 mt-2">
+                Searching Swiss cities...
+              </Text>
+            </View>
+          ) : cities.length > 0 ? (
+            <FlatList
+              data={cities}
+              renderItem={renderCityItem}
+              keyExtractor={(item) => item.id}
+              className="flex-1"
+              showsVerticalScrollIndicator={false}
+            />
+          ) : citySearchText.length > 0 ? (
+            <View className="flex-1 justify-center items-center px-4">
+              <Text className="text-gray-600 text-center">
+                No Swiss cities found
+              </Text>
+              <Text className="text-gray-500 text-center mt-2">
+                Try searching for Zurich, Geneva, Basel, etc.
+              </Text>
+            </View>
+          ) : (
+            <View className="flex-1 justify-center items-center px-4">
+              <Text className="text-gray-500 text-center">
+                Popular Swiss cities shown above
+              </Text>
+              <Text className="text-gray-400 text-center mt-2">
+                Or type to search for more
               </Text>
             </View>
           )}
+        </View>
+      </Modal>
 
-          {/* Cities List */}
-          {!loading && (
+      {/* Street Dropdown Modal */}
+      <Modal
+        visible={streetModalVisible}
+        animationType="slide"
+        presentationStyle="pageSheet"
+      >
+        <View className="flex-1 bg-white">
+          {/* Header */}
+          <View className="flex-row justify-between items-center p-4 border-b border-gray-200 bg-gray-50">
+            <View className="flex-1">
+              <Text className="text-lg font-semibold text-gray-800">
+                Select Street Address
+              </Text>
+              <Text className="text-sm text-gray-600">
+                in {selectedCity?.name}, Switzerland
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setStreetModalVisible(false);
+                setStreetSearchText("");
+              }}
+              className="px-3 py-1"
+            >
+              <Text className="text-blue-600 text-base font-medium">
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Search Input */}
+          <View className="p-4 bg-white border-b border-gray-100">
+            <TextInput
+              className="w-full h-10 border border-gray-300 rounded-lg px-3 text-base bg-gray-50"
+              placeholder={`Search addresses in ${selectedCity?.name}...`}
+              value={streetSearchText}
+              onChangeText={setStreetSearchText}
+              autoFocus={false}
+            />
+          </View>
+
+          {/* Results */}
+          {loadingStreets ? (
+            <View className="flex-1 justify-center items-center">
+              <ActivityIndicator size="large" color="#3B82F6" />
+              <Text className="text-gray-600 mt-2">Searching addresses...</Text>
+            </View>
+          ) : streets.length > 0 ? (
             <FlatList
-              data={filteredCities}
+              data={streets}
+              renderItem={renderStreetItem}
               keyExtractor={(item) => item.id}
               className="flex-1"
-              showsVerticalScrollIndicator={true}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  className="px-5 py-4 border-b border-gray-100 active:bg-gray-50"
-                  onPress={() => handleCitySelect(item)}
-                  activeOpacity={0.8}
-                >
-                  <View className="w-full">
-                    <Text className="text-lg font-semibold text-gray-900 mb-1">
-                      {item.name}
-                    </Text>
-                    <Text className="text-sm text-gray-600 mb-1">
-                      📮 {item.postalCode} • 🏛️ {item.cantonCode}
-                    </Text>
-                    {item.population > 0 && (
-                      <Text className="text-xs text-gray-500">
-                        👥 {item.population.toLocaleString()} residents
-                      </Text>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              )}
-              ListEmptyComponent={
-                <View className="p-10 items-center">
-                  <Text className="text-lg text-gray-500 text-center font-medium">
-                    {searchQuery
-                      ? `No cities found for "${searchQuery}"`
-                      : "No cities available"}
-                  </Text>
-                  {searchQuery && (
-                    <Text className="text-sm text-gray-400 text-center mt-2">
-                      Try searching by city name, postal code, or canton
-                    </Text>
-                  )}
-                </View>
-              }
+              showsVerticalScrollIndicator={false}
             />
+          ) : streetSearchText.length > 0 ? (
+            <View className="flex-1 justify-center items-center px-4">
+              <Text className="text-gray-600 text-center">
+                No addresses found in {selectedCity?.name}
+              </Text>
+              <Text className="text-gray-500 text-center mt-2">
+                Try typing a street name or area
+              </Text>
+            </View>
+          ) : (
+            <View className="flex-1 justify-center items-center px-4">
+              <Text className="text-gray-500 text-center">
+                🇨🇭 Type to search for street addresses
+              </Text>
+              <Text className="text-gray-400 text-center mt-2">
+                in {selectedCity?.name}, Switzerland
+              </Text>
+            </View>
           )}
-        </SafeAreaView>
+        </View>
       </Modal>
     </View>
   );
-};
-
-export default SwitzerlandCityPicker;
+}

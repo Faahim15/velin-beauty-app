@@ -62,7 +62,7 @@ export default function SignUp() {
           </View>
         </View>
       </ScrollView>
-      <View className="mb-[30%]">
+      <View className="mb-[20%]">
         <AuthButton onPress={() => router.push("/auth/register")}>
           Continue
         </AuthButton>
