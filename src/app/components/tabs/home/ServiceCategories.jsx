@@ -28,7 +28,7 @@ const ServiceCategories = () => {
     <View className="w-full  py-[4%] ">
       {/* Header */}
 
-      <CategoryHeader title="Service Categories" />
+      <CategoryHeader path="/home/beautyService" title="Service Categories" />
 
       {/* Categories FlatList */}
       <View className="mx-[6%] shadow-md border border-[#F3EFE8] rounded-md  justify-center items-center px-[4%] py-[3%] bg-[#F3EFE8] ">
