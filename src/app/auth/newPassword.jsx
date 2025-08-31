@@ -11,8 +11,8 @@ export default function newPassword() {
         title="Create New Password"
         subtitle="Choose a secure new password to protect your Velin account."
       />
-      <CustomPassInput passText="New Password" />
-      <CustomPassInput passText="Confirm Password" />
+      <CustomPassInput createNewPass={true} passText="New Password" />
+      <CustomPassInput createNewPass={true} passText="Confirm Password" />
       <View className="flex-1 justify-end mb-[20%] ">
         <AuthButton>Save</AuthButton>
       </View>

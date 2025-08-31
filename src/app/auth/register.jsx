@@ -7,13 +7,28 @@ import { useState } from "react";
 import CustomPassInput from "../components/auth/CustomPassInput";
 export default function register() {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [activeInfo, setActiveInfo] = useState(null);
+  const handleIbutton = (key) => {
+    setActiveInfo((prev) => (prev === key ? null : key));
+  };
   return (
     <View className="flex-1 bg-white">
       <AuthHeader />
-      <ProfilePictureUpload />
+      <ProfilePictureUpload
+        onPress={() => handleIbutton("profilePic")}
+        activeInfo={activeInfo}
+      />
 
-      <CustomPassInput passText="New Password" />
-      <CustomPassInput passText="Confirm Password" />
+      <CustomPassInput
+        onPress={() => handleIbutton("New Password")}
+        activeInfo={activeInfo}
+        passText="New Password"
+      />
+      <CustomPassInput
+        onPress={() => handleIbutton("Confirm Password")}
+        activeInfo={activeInfo}
+        passText="Confirm Password"
+      />
 
       <View className=" mt-[10%] ">
         {/* Terms and Conditions */}

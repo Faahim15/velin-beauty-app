@@ -9,7 +9,6 @@ import {
   ActivityIndicator,
   TextInput,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 
 // Replace with your Google Places API key
@@ -26,7 +25,7 @@ export default function App() {
   const [loadingStreets, setLoadingStreets] = useState(false);
   const [citySearchText, setCitySearchText] = useState("");
   const [streetSearchText, setStreetSearchText] = useState("");
-  const [isMandatory, setIsMandatory] = useState(false);
+  const [activeInfo, setActiveInfo] = useState(null);
 
   // Pre-populate with major Swiss cities
   const popularSwissCities = [
@@ -232,8 +231,8 @@ export default function App() {
     </TouchableOpacity>
   );
 
-  const handleIbutton = () => {
-    setIsMandatory(!isMandatory);
+  const handleIbutton = (key) => {
+    setActiveInfo((prev) => (prev === key ? null : key)); // toggle
   };
   return (
     <View className="flex-1 bg-white">
@@ -246,12 +245,12 @@ export default function App() {
             <Text className="font-poppins text-base text-[#060605]">City</Text>
             <TouchableOpacity
               className="flex-row gap-[5%]"
-              onPress={handleIbutton}
+              onPress={() => handleIbutton("city")}
             >
               <View className="w-4 h-4  rounded-full border border-black bg-white ml-2 items-center justify-center">
                 <Text className="text-black font-poppins text-xs">i</Text>
               </View>
-              {isMandatory && (
+              {activeInfo === "city" && (
                 <Text className="text-black font-poppins text-xs">
                   Mandatory
                 </Text>
@@ -289,12 +288,12 @@ export default function App() {
             </Text>
             <TouchableOpacity
               className="flex-row gap-[5%]"
-              onPress={handleIbutton}
+              onPress={() => handleIbutton("street")}
             >
               <View className="w-4 h-4  rounded-full border border-black bg-white ml-2 items-center justify-center">
                 <Text className="text-black font-poppins text-xs">i</Text>
               </View>
-              {isMandatory && (
+              {activeInfo === "street" && (
                 <Text className="text-black font-poppins text-xs">
                   Mandatory
                 </Text>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,10 @@ import { useRouter } from "expo-router";
 
 export default function SignUp() {
   const router = useRouter();
+  const [activeInfo, setActiveInfo] = useState(null);
+  const handleIbutton = (key) => {
+    setActiveInfo((prev) => (prev === key ? null : key));
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -32,14 +36,20 @@ export default function SignUp() {
                 placeholder: "First Name",
                 autoCapitalize: "words",
                 placeholderTextColor: "#898989",
+                token: "FirstName",
               }}
+              onPress={() => handleIbutton("FirstName")}
+              activeInfo={activeInfo}
             />
             <InputField
               textInputConfig={{
                 placeholder: "Last Name",
                 autoCapitalize: "words",
                 placeholderTextColor: "#898989",
+                token: "LastName",
               }}
+              onPress={() => handleIbutton("LastName")}
+              activeInfo={activeInfo}
             />
             <InputField
               textInputConfig={{
@@ -47,7 +57,10 @@ export default function SignUp() {
                 autoCapitalize: "none",
                 placeholderTextColor: "#898989",
                 keyboardType: "email-address",
+                token: "email",
               }}
+              onPress={() => handleIbutton("email")}
+              activeInfo={activeInfo}
             />
             <InputField
               textInputConfig={{
@@ -56,7 +69,10 @@ export default function SignUp() {
                 autoCapitalize: "none",
                 placeholderTextColor: "#898989",
                 keyboardType: "numeric",
+                token: "phone",
               }}
+              onPress={() => handleIbutton("phone")}
+              activeInfo={activeInfo}
             />
             <AddressForm />
           </View>

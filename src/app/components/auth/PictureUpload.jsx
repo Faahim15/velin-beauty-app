@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-export default function ProfilePictureUpload() {
+export default function ProfilePictureUpload({ onPress, activeInfo }) {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
@@ -19,10 +19,23 @@ export default function ProfilePictureUpload() {
   };
 
   return (
-    <View className="  px-[5%]">
-      <Text className="font-poppins text-base text-[#060605]">
-        Profile Picture
-      </Text>
+    <View className="px-[6%] mt-[2.36%] ">
+      <View className="flex-row">
+        <Text className="font-poppins text-base text-[#060605]">
+          Profile Picture
+        </Text>
+        <TouchableOpacity
+          onPress={onPress}
+          className="flex-row pt-[1.1%] gap-[5%]"
+        >
+          <View className="w-4 h-4  rounded-full border border-black bg-white ml-2 items-center justify-center">
+            <Text className="text-black font-poppins text-xs">i</Text>
+          </View>
+          {activeInfo === "profilePic" && (
+            <Text className="text-black font-poppins text-xs">Mandatory</Text>
+          )}
+        </TouchableOpacity>
+      </View>
 
       {/* Profile Preview */}
       {/* {image ? (
