@@ -3,9 +3,13 @@ import WelcomeMessage from "../components/auth/WelcomeMessage";
 import Input from "../components/auth/Input";
 import PasswordInput from "../components/auth/PasswordInput";
 import AuthButton from "../components/auth/AuthButton";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 export default function SignInScreen() {
+  const router = useRouter();
+  const handleSignIn = () => {
+    router.replace("/(tabs)");
+  };
   return (
     <View className="flex-1 bg-white">
       <WelcomeMessage />
@@ -28,7 +32,7 @@ export default function SignInScreen() {
         </Link>
       </View>
       <View className="mt-[15%]">
-        <AuthButton>Sign In</AuthButton>
+        <AuthButton onPress={handleSignIn}>Sign In</AuthButton>
         <View className="mt-[1.18%]">
           <Text className="font-poppinsMedium text-center text-xs text-[#1B1B25]">
             Don't have an account?{"  "}

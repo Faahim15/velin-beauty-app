@@ -1,5 +1,4 @@
 import { View, Text } from "react-native";
-import React from "react";
 import AuthHeader from "../components/auth/AuthHeader";
 import CustomPassInput from "../components/auth/CustomPassInput";
 import AuthButton from "../components/auth/AuthButton";
