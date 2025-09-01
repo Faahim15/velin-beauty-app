@@ -1,14 +1,12 @@
-import React from "react";
 import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import CategoryHeader from "./CategoryHeader";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
 import NearbyLocationServicesData from "../../fakeData/tabs/home/NearbyLocationData";
 const HairSalonCard = ({ item }) => {
   return (
     <View
       style={{ width: scale(330) }}
-      className="bg-[#F4F0E9] px-[2%] py-[2%]  rounded-2xl shadow-lg mr-[0.6%] overflow-hidden "
+      className="bg-[#F4F0E9]  px-[2%] py-[2%]  rounded-2xl shadow-md mr-[0.6%] overflow-hidden "
     >
       {/* Image Container */}
       <View className="relative">
@@ -75,28 +73,24 @@ const HairSalonCard = ({ item }) => {
   );
 };
 
-const HairSalonList = () => {
+const NearbyServicesCard = () => {
   const renderSalonCard = ({ item }) => {
     return <HairSalonCard item={item} />;
   };
 
   return (
-    <View className="flex-1">
-      <CategoryHeader
-        path="client/services/nearbyServices"
-        title="Hair Services Near You"
-      />
-
-      <View className="mx-[6%]     ">
+    <View className="flex-1 mt-[4%]">
+      <View className="mx-[6%]  flex-1 justify-center items-center ">
         <FlatList
           data={NearbyLocationServicesData}
           renderItem={renderSalonCard}
           keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            paddingRight: scale(90),
+            paddingBottom: verticalScale(100),
           }}
+          ItemSeparatorComponent={() => <View className="h-[1%]" />}
           snapToInterval={296} // Card width (280) + margin (16)
           decelerationRate="fast"
           snapToAlignment="start"
@@ -106,4 +100,4 @@ const HairSalonList = () => {
   );
 };
 
-export default HairSalonList;
+export default NearbyServicesCard;

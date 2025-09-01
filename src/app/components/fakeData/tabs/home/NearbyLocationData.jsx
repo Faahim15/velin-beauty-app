@@ -1,4 +1,4 @@
-export const NearbyLocationServicesData = [
+const NearbyLocationServicesData = [
   {
     id: "1",
     providerName: "Noah Liam",
@@ -72,3 +72,5 @@ export const NearbyLocationServicesData = [
       "https://images.unsplash.com/photo-1515377905703-c4788e51af15?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
   },
 ];
+
+export default NearbyLocationServicesData;

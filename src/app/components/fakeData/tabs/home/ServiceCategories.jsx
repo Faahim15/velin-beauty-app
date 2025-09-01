@@ -1,4 +1,4 @@
-export const categories = [
+const categories = [
   {
     id: 1,
     name: "Nails",
@@ -49,3 +49,4 @@ export const categories = [
     serviceCount: "25 Services",
   },
 ];
+export default categories;

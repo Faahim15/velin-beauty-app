@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CategoryHeader from "./CategoryHeader";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
-import { BestServicesData } from "../../fakeData/tabs/home/BestServicesData";
+import BestServicesData from "../../fakeData/tabs/home/BestServicesData";
 const HairSalonCard = ({ item }) => {
   return (
     <View
@@ -85,7 +85,11 @@ const BestServices = () => {
       {/* <Text className="text-gray-900 text-xl font-bold mx-[4%] mb-[4%]">
         Hair Services Near You
       </Text> */}
-      <CategoryHeader title="Best for You" />
+      <CategoryHeader
+        path="client/services/bestServices
+      "
+        title="Best for You"
+      />
       <View className="mx-[6%]     ">
         <FlatList
           data={BestServicesData}

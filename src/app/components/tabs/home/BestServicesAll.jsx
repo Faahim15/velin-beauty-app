@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CategoryHeader from "./CategoryHeader";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
-import NearbyLocationServicesData from "../../fakeData/tabs/home/NearbyLocationData";
+import BestServicesData from "../../fakeData/tabs/home/BestServicesData";
 const HairSalonCard = ({ item }) => {
   return (
     <View
@@ -75,28 +75,24 @@ const HairSalonCard = ({ item }) => {
   );
 };
 
-const HairSalonList = () => {
+const BestServicesAll = () => {
   const renderSalonCard = ({ item }) => {
     return <HairSalonCard item={item} />;
   };
 
   return (
-    <View className="flex-1">
-      <CategoryHeader
-        path="client/services/nearbyServices"
-        title="Hair Services Near You"
-      />
-
-      <View className="mx-[6%]     ">
+    <View className="flex-1 mt-[3%]">
+      <View className="mx-[6%]">
         <FlatList
-          data={NearbyLocationServicesData}
+          data={BestServicesData}
           renderItem={renderSalonCard}
           keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            paddingRight: scale(90),
+            paddingBottom: verticalScale(100),
           }}
+          ItemSeparatorComponent={() => <View className="h-[1%]" />}
           snapToInterval={296} // Card width (280) + margin (16)
           decelerationRate="fast"
           snapToAlignment="start"
@@ -106,4 +102,4 @@ const HairSalonList = () => {
   );
 };
 
-export default HairSalonList;
+export default BestServicesAll;
