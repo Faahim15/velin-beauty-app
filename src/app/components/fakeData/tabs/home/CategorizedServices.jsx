@@ -352,7 +352,7 @@ const categorizedServices = [
     id: 8,
     title: "Spa",
     image:
-      "https://images.unsplash.com/photo-1544164352-62535ba7cdc8?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1000&q=80",
     serviceCount: "30 Services",
     data: [
       {
@@ -394,7 +394,7 @@ const categorizedServices = [
     id: 9,
     title: "Waxing",
     image:
-      "https://images.unsplash.com/photo-1595425970377-2f8ded7c7b19?auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=400&q=80",
     serviceCount: "30 Services",
     data: [
       {
@@ -406,7 +406,7 @@ const categorizedServices = [
         avatarImage:
           "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80",
         image:
-          "https://images.unsplash.com/photo-1595425970377-2f8ded7c7b19?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=400&q=80",
       },
       {
         providerName: "Bare Essentials",

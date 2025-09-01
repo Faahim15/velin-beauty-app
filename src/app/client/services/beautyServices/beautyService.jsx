@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import categorizedServices from "../../components/fakeData/tabs/home/CategorizedServices";
+import categorizedServices from "../../../components/fakeData/tabs/home/CategorizedServices";
 import { StatusBar } from "react-native";
-import BaseHeader from "../../components/shared/BaseHeader";
 import { router } from "expo-router";
-
+import BaseHeader from "../../../components/shared/BaseHeader";
 const BeautyServicesScreen = () => {
   const ServiceCard = ({ service }) => {
     const handleBeautyServices = () => {

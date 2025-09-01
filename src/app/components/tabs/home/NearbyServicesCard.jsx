@@ -2,7 +2,9 @@ import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
 import NearbyLocationServicesData from "../../fakeData/tabs/home/NearbyLocationData";
+import { useState } from "react";
 const HairSalonCard = ({ item }) => {
+  const [liked, setLiked] = useState(false);
   return (
     <View
       style={{ width: scale(330) }}
@@ -18,8 +20,15 @@ const HairSalonCard = ({ item }) => {
         />
 
         {/* Heart Icon Overlay */}
-        <TouchableOpacity className="absolute top-[4%] right-[5%] bg-white/80 rounded-full p-[2%]">
-          <Ionicons name="heart-outline" size={18} color="#666" />
+        <TouchableOpacity
+          className="absolute top-[4%] right-[5%] bg-white/80 rounded-full p-[2%]"
+          onPress={() => setLiked((prev) => !prev)}
+        >
+          <Ionicons
+            name={liked ? "heart" : "heart-outline"}
+            size={18}
+            color={liked ? "#FF0000" : "#666"}
+          />
         </TouchableOpacity>
       </View>
 

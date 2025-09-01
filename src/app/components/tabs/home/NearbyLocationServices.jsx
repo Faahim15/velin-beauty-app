@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CategoryHeader from "./CategoryHeader";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
 import NearbyLocationServicesData from "../../fakeData/tabs/home/NearbyLocationData";
+import { router } from "expo-router";
 const HairSalonCard = ({ item }) => {
+  const [liked, setLiked] = useState(false);
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => {
+        router.push({
+          pathname: "client/services/nearbyService/nearbyServicesDetails",
+          params: { serviceId: item.id },
+        });
+      }}
       style={{ width: scale(330) }}
-      className="bg-[#F4F0E9] px-[2%] py-[2%]  rounded-2xl shadow-lg mr-[0.6%] overflow-hidden "
+      className="bg-[#F4F0E9] px-[2%] py-[2%]  rounded-2xl shadow-lg mr-[0.6%] overflow-hidden"
     >
       {/* Image Container */}
       <View className="relative">
@@ -20,8 +28,15 @@ const HairSalonCard = ({ item }) => {
         />
 
         {/* Heart Icon Overlay */}
-        <TouchableOpacity className="absolute top-[4%] right-[5%] bg-white/80 rounded-full p-[2%]">
-          <Ionicons name="heart-outline" size={18} color="#666" />
+        <TouchableOpacity
+          className="absolute top-[4%] right-[5%] bg-white/80 rounded-full p-[2%]"
+          onPress={() => setLiked((prev) => !prev)}
+        >
+          <Ionicons
+            name={liked ? "heart" : "heart-outline"}
+            size={18}
+            color={liked ? "#FF0000" : "#666"}
+          />
         </TouchableOpacity>
       </View>
 
@@ -71,7 +86,7 @@ const HairSalonCard = ({ item }) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -83,8 +98,8 @@ const HairSalonList = () => {
   return (
     <View className="flex-1">
       <CategoryHeader
-        path="client/services/nearbyServices"
-        title="Hair Services Near You"
+        path="client/services/nearbyService/nearbyServices"
+        title="Nearby Your Location"
       />
 
       <View className="mx-[6%]     ">
