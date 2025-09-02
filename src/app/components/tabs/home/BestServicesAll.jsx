@@ -1,12 +1,19 @@
 import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { useState } from "react";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
 import BestServicesData from "../../fakeData/tabs/home/BestServicesData";
+import { router } from "expo-router";
 const HairSalonCard = ({ item }) => {
   const [liked, setLiked] = useState(false);
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => {
+        router.push({
+          pathname: "client/services/bestService/bestServicesDetails",
+          params: { serviceId: item.id },
+        });
+      }}
       style={{ width: scale(330) }}
       className="bg-[#F4F0E9] px-[2%] py-[2%]  rounded-2xl shadow-lg mr-[0.6%] overflow-hidden "
     >
@@ -78,7 +85,7 @@ const HairSalonCard = ({ item }) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

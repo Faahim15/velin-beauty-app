@@ -9,7 +9,7 @@ const BeautyServicesScreen = () => {
   const ServiceCard = ({ service }) => {
     const handleBeautyServices = () => {
       router.push({
-        pathname: "client/services/beautyService/beautyServiceDetails",
+        pathname: "client/services/beautyServices/beautyServiceDetails",
         params: { serviceId: service.id },
       });
     };

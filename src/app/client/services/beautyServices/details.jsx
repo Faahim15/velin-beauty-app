@@ -1,16 +1,14 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import NearbyLocationServicesData from "../../../components/fakeData/tabs/home/NearbyLocationData";
+import categories from "../../../components/fakeData/tabs/home/ServiceCategories";
 import BaseHeader from "../../../components/shared/BaseHeader";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import ServiceDetails from "../../../components/tabs/home/ServiceDetails";
 import ServiceButton from "../../../components/tabs/home/ServiceButton";
-export default function nearbyServicesDetails() {
+export default function Details() {
   const { serviceId } = useLocalSearchParams();
-  const service = NearbyLocationServicesData.find(
-    (s) => s.id.toString() === serviceId
-  );
+  const service = categories.find((s) => s.id.toString() === serviceId);
   const [liked, setLiked] = useState(false);
   return (
     <View className="flex-1 bg-white">

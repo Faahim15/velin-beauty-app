@@ -4,10 +4,17 @@ import CategoryHeader from "./CategoryHeader";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
 import BestServicesData from "../../fakeData/tabs/home/BestServicesData";
 import { useState } from "react";
+import { router } from "expo-router";
 const HairSalonCard = ({ item }) => {
   const [liked, setLiked] = useState(false);
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => {
+        router.push({
+          pathname: "client/services/bestService/bestServicesDetails",
+          params: { serviceId: item.id },
+        });
+      }}
       style={{ width: scale(330) }}
       className="bg-[#F4F0E9] px-[2%] py-[2%]  rounded-2xl shadow-lg mr-[0.6%] overflow-hidden "
     >
@@ -78,7 +85,7 @@ const HairSalonCard = ({ item }) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -89,11 +96,8 @@ const BestServices = () => {
 
   return (
     <View className="flex-1 mt-[3%]">
-      {/* <Text className="text-gray-900 text-xl font-bold mx-[4%] mb-[4%]">
-        Hair Services Near You
-      </Text> */}
       <CategoryHeader
-        path="client/services/bestServices/bestServices"
+        path="client/services/bestService/bestServices"
         title="Best for You"
       />
       <View className="mx-[6%]     ">

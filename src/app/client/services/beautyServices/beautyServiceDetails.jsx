@@ -10,14 +10,23 @@ import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import categorizedServices from "../../../components/fakeData/tabs/home/CategorizedServices";
 import BaseHeader from "../../../components/shared/BaseHeader";
+import { router } from "expo-router";
 const BeautyServiceDetails = () => {
   const { serviceId } = useLocalSearchParams();
   const service = categorizedServices.find(
     (s) => s.id.toString() === serviceId
   );
 
-  const ServiceCard = ({ service }) => (
-    <View className="bg-[#F4F0E9] rounded-lg mx-[6%] mb-[3%] shadow-sm">
+  const ServiceCard = ({ service, id }) => (
+    <TouchableOpacity
+      onPress={() => {
+        router.push({
+          pathname: "client/services/beautyServices/details",
+          params: { serviceId: id },
+        });
+      }}
+      className="bg-[#F4F0E9] rounded-lg mx-[6%] mb-[3%] shadow-sm"
+    >
       <View className="flex-row p-[4%]">
         {/* Service Image */}
         <Image
@@ -79,7 +88,7 @@ const BeautyServiceDetails = () => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -103,7 +112,9 @@ const BeautyServiceDetails = () => {
         {/* Service List */}
         <FlatList
           data={service.data}
-          renderItem={({ item }) => <ServiceCard service={item} />}
+          renderItem={({ item }) => (
+            <ServiceCard service={item} id={service.id} />
+          )}
           keyExtractor={(_, index) => index.toString()}
           className="flex-1"
           showsVerticalScrollIndicator={false}

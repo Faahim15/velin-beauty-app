@@ -2,9 +2,19 @@ import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
 import categories from "../../fakeData/tabs/home/ServiceCategories";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
 import CategoryHeader from "./CategoryHeader";
+import { router } from "expo-router";
 const ServiceCategories = () => {
   const renderCategoryItem = ({ item }) => (
-    <TouchableOpacity className="items-center  mr-[6%]" activeOpacity={0.7}>
+    <TouchableOpacity
+      onPress={() => {
+        router.push({
+          pathname: "client/services/beautyServices/details",
+          params: { serviceId: item.id },
+        });
+      }}
+      className="items-center  mr-[6%]"
+      activeOpacity={0.7}
+    >
       {/* Category Image Circle */}
       <View
         style={{ width: scale(60), height: verticalScale(60) }}
@@ -29,7 +39,7 @@ const ServiceCategories = () => {
       {/* Header */}
 
       <CategoryHeader
-        path="client/services/beautyService"
+        path="client/services/beautyServices/beautyService"
         title="Service Categories"
       />
 
@@ -41,7 +51,7 @@ const ServiceCategories = () => {
           keyExtractor={(item) => item.id.toString()}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: "0%" }}
+          contentContainerStyle={{ paddingRight: scale(30) }}
         />
       </View>
     </View>
