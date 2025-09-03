@@ -10,7 +10,10 @@ export default function Home() {
     <View className="flex-1 bg-white">
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <Header />
-      <ScrollView contentContainerStyle={{ paddingBottom: verticalScale(15) }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: verticalScale(15) }}
+      >
         <View className="flex-1 bg-white">
           <View className="">
             <ServiceCategories />

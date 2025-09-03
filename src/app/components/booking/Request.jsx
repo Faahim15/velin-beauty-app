@@ -5,6 +5,7 @@ import { scale, verticalScale } from "../adaptiveness/adaptiveness";
 import CancelBookingModal from "./modal/CancelBookingModal";
 import { useState } from "react";
 import HairCutServiceModal from "./modal/ServiceModal";
+import { router } from "expo-router";
 function Request() {
   // Flatten all services from all categories
   const allServices = categorizedServices.flatMap((category) => category.data);
@@ -18,6 +19,7 @@ function Request() {
 
     const handleConfirmCancel = () => {
       setShowCancelModal(false);
+      router.push("/client/booking/cancelBooking");
     };
 
     const handleCloseModal = () => {
