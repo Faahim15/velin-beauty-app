@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   View,
   Text,
@@ -66,17 +66,17 @@ function ChatScreen() {
         className="flex-1"
       >
         {/* Header */}
-        <View className="flex-row gap-[3%] items-center px-[4%] py-[3%] bg-white border-b border-gray-100">
+        <View className="flex-row gap-[3%] items-center px-[4.6%] py-[3%] bg-white border-b border-[#E8E8E9]">
           <View
             style={buttonStyles}
-            className="  border border-[#484847] justify-center items-center "
+            className="mr-[6%]  border border-[#484847] justify-center items-center "
           >
             <Pressable onPress={() => router.back()}>
               <Ionicons name="chevron-back" size={20} color="#1B1B25" />
             </Pressable>
           </View>
 
-          <View className="flex-row items-center flex-1">
+          <View className="flex-row gap-[3%] items-center flex-1">
             <View className="justify-center mt-[2%] mr-[3%]">
               <Image
                 style={{
@@ -118,14 +118,15 @@ function ChatScreen() {
                     source={{
                       uri: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
                     }}
-                    className="w-[8%] h-[8%] rounded-full mr-[2%] mt-[1%]"
+                    className=" mr-[2%] mt-[1%]"
+                    style={{width:scale(32), height: verticalScale(32), borderRadius:scale(16)}}
                   />
                 )}
 
                 <View className="flex-1">
                   {msg.hasImage ? (
                     <View
-                      className={`rounded-2xl overflow-hidden ${msg.isUser ? "bg-gray-100" : "bg-teal-600"}`}
+                      className={`rounded-2xl overflow-hidden ${msg.isUser ? "bg-gray-100" : "bg-[#156778]"}`}
                     >
                       <Image
                         source={{
@@ -139,12 +140,12 @@ function ChatScreen() {
                     <View
                       className={`px-[4%] py-[3%] rounded-2xl ${
                         msg.isUser
-                          ? "bg-gray-100 rounded-br-md"
-                          : "bg-teal-600 rounded-bl-md"
+                          ? "bg-[#F4F0E9] rounded-br-md"
+                          : "bg-[#156778] rounded-bl-md"
                       }`}
                     >
                       <Text
-                        className={`text-base ${msg.isUser ? "text-black" : "text-white"}`}
+                        className={`text-base font-poppins ${msg.isUser ? "text-black" : "text-white"}`}
                       >
                         {msg.text}
                       </Text>
@@ -153,7 +154,7 @@ function ChatScreen() {
 
                   {msg.time && (
                     <View className="flex-row items-center justify-end mt-[1%]">
-                      <Text className="text-xs text-gray-400 mr-[1%]">
+                      <Text className="font-poppins text-xs text-[#ADB3BC] mr-[1%]">
                         {msg.time}
                       </Text>
                       {msg.isUser && msg.isRead && (
@@ -172,27 +173,27 @@ function ChatScreen() {
         </ScrollView>
 
         {/* Input Area */}
-        <View className="flex-row items-center px-[4%] py-[3%] bg-white border-t border-gray-100">
+        <View className="flex-row items-center px-[4%] py-[3%] bg-white border-t border-[#E8E8E9]">
           <TouchableOpacity className="mr-[3%]">
-            <Ionicons name="attach" size={24} color="#666" />
+            <Ionicons name="attach" size={24} color="#ADB3BC" />
           </TouchableOpacity>
 
-          <View className="flex-1 flex-row items-center bg-gray-100 rounded-full px-[4%] py-[2.5%]">
+          <View className="flex-1 flex-row items-center bg-[#F0F3F6] rounded-full px-[4%] py-[2.5%]">
             <TextInput
               value={message}
               onChangeText={setMessage}
               placeholder="Type a message"
-              placeholderTextColor="#999"
-              className="flex-1 text-base text-black"
+              placeholderTextColor="#ADB3BC"
+              className="flex-1 font-poppins text-base text-black"
               multiline
             />
             <TouchableOpacity className="ml-[2%]">
-              <Ionicons name="happy-outline" size={20} color="#666" />
+              <Ionicons name="happy-outline" size={24} color="#ADB3BC" />
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity className="ml-[3%] bg-teal-600 rounded-full p-[3%]">
-            <Ionicons name="send" size={20} color="white" />
+          <TouchableOpacity style={{width:scale(48), height:verticalScale(48), borderRadius:scale(24) }} className=" justify-center items-center ml-[2.5%] bg-[#156778] ">
+            <Ionicons style={{ transform: [{ rotate: "-50deg" }] }} name="send" size={20} color="white" />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
