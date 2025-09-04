@@ -102,9 +102,9 @@ export default function LevelUp() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={{
           paddingTop: 20,
-          paddingBottom: verticalScale(100), // Enough space for bottom nav or floating buttons
+          paddingBottom: verticalScale(40), // Enough space for bottom nav or floating buttons
         }}
-        showsVerticalScrollIndicator={true}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

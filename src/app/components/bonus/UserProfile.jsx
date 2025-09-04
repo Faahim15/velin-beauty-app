@@ -3,7 +3,7 @@ import { scale, verticalScale } from "../adaptiveness/adaptiveness";
 import { Ionicons } from "@expo/vector-icons";
 export default function UserProfile() {
   return (
-    <View className="bg-white w-full pl-[6.75%] pb-[2%] px-[6%] border-b-[0.7px] border-[#000] mt-[4%]  items-center">
+    <View className="bg-white w-full pl-[6.75%] pb-[2%] px-[6%] border-b-[0.7px] border-[#000] mt-[2%]  items-center">
       <View
         style={{
           width: scale(96),
