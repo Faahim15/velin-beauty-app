@@ -1,6 +1,5 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import UserProfile from "./UserProfile";
-import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import bonusItems from "../fakeData/tabs/bonus/BonusItem";
 import { verticalScale } from "../adaptiveness/adaptiveness";
@@ -19,9 +18,9 @@ export default function LevelUp() {
           <View
             className={`w-[50px] h-[50px] rounded-full items-center justify-center ${
               isCompleted
-                ? "bg-green-500"
+                ? "bg-[#0D8D01]"
                 : isPending
-                  ? "bg-blue-500"
+                  ? "bg-[#0D8D01]"
                   : "bg-gray-300"
             }`}
           >
@@ -38,7 +37,7 @@ export default function LevelUp() {
           {!isLast && (
             <View
               className={`w-[3px] h-[80px] mt-[2%] ${
-                isCompleted ? "bg-orange-400" : "bg-gray-300"
+                isCompleted ? "bg-[#0D8D01]" : "bg-gray-300"
               }`}
             />
           )}
@@ -48,7 +47,7 @@ export default function LevelUp() {
         <View className="flex-1">
           <View
             className={`rounded-2xl p-[4%] ${
-              isCompleted ? "bg-white" : "bg-gray-100"
+              isCompleted ? "bg-[#0D8D01]" : "bg-gray-100"
             }`}
             style={{
               shadowColor: "#000",
@@ -60,34 +59,35 @@ export default function LevelUp() {
           >
             <View className="flex-row items-center justify-between mb-[2%]">
               <Text
-                className={`text-lg font-semibold ${
-                  isCompleted ? "text-gray-800" : "text-gray-500"
+                className={`text-lg font-poppinsBold ${
+                  isCompleted ? "text-white" : "text-gray-500"
                 }`}
               >
                 {item.title}
               </Text>
-              <Text
+              {/* <Text
                 className={`font-bold ${
                   isCompleted ? "text-green-500" : "text-gray-400"
                 }`}
               >
                 {item.points}
-              </Text>
+              </Text> */}
+              <Ionicons name={item.badge} size={24} color="#E0C168" />
             </View>
 
             <Text
-              className={`text-sm ${
-                isCompleted ? "text-gray-600" : "text-gray-400"
+              className={`text-xs font-poppins ${
+                isCompleted ? "text-white/80" : "text-gray-400"
               }`}
             >
               {item.description}
             </Text>
 
-            {isPending && (
+            {/* {isPending && (
               <TouchableOpacity className="bg-green-500 rounded-lg py-[3%] mt-[3%] items-center">
                 <Text className="text-white font-semibold">Claim Bonus</Text>
               </TouchableOpacity>
-            )}
+            )} */}
           </View>
         </View>
       </View>
