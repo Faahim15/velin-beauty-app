@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import categorizedServices from "../../../components/fakeData/tabs/home/CategorizedServices";
@@ -17,79 +18,86 @@ const BeautyServiceDetails = () => {
     (s) => s.id.toString() === serviceId
   );
 
-  const ServiceCard = ({ service, id }) => (
-    <TouchableOpacity
-      onPress={() => {
-        router.push({
-          pathname: "client/services/beautyServices/details",
-          params: { serviceId: id },
-        });
-      }}
-      className="bg-[#F4F0E9] rounded-lg mx-[6%] mb-[3%] shadow-sm"
-    >
-      <View className="flex-row p-[4%]">
-        {/* Service Image */}
-        <Image
-          source={{
-            uri:
-              service.image ||
-              "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1000&q=80",
-          }}
-          className="w-[20%] h-auto rounded-lg mr-[4%]"
-          resizeMode="cover"
-        />
+  const ServiceCard = ({ service, id }) => {
+    const [liked, setLiked] = useState(false);
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          router.push({
+            pathname: "client/services/beautyServices/details",
+            params: { serviceId: id },
+          });
+        }}
+        className="bg-[#F4F0E9] rounded-lg mx-[6%] mb-[3%] shadow-sm"
+      >
+        <View className="flex-row p-[4%]">
+          {/* Service Image */}
+          <Image
+            source={{
+              uri:
+                service.image ||
+                "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1000&q=80",
+            }}
+            className="w-[20%] h-auto rounded-lg mr-[4%]"
+            resizeMode="cover"
+          />
 
-        {/* Service Details */}
-        <View className="flex-1 justify-between">
-          {/* Title and Heart Icon */}
-          <View className="flex-row justify-between items-start">
-            <Text className=" font-poppinsSemiBold text-base text-[#1B1B25] mb-[2%]">
-              {service.serviceName}
-            </Text>
-            <TouchableOpacity>
-              <Ionicons name="heart-outline" size={24} color="#000" />
-            </TouchableOpacity>
-          </View>
-
-          {/* Price and Distance */}
-          <View className="flex-row justify-between items-center mb-[2%]">
-            <Text className="text-xs font-poppinsMedium text-[#1B1B25]">
-              {service.price}
-            </Text>
-            <View className="flex-row items-center">
-              <Ionicons name="location-outline" size={10} color="#000" />
-              <Text className="text-xs font-poppinsMedium text-[#1B1B25] ml-[1%]">
-                {service.distance}
+          {/* Service Details */}
+          <View className="flex-1 justify-between">
+            {/* Title and Heart Icon */}
+            <View className="flex-row justify-between items-start">
+              <Text className=" font-poppinsSemiBold text-base text-[#1B1B25] mb-[2%]">
+                {service.serviceName}
               </Text>
-            </View>
-          </View>
-
-          {/* Provider and Rating */}
-          <View className="flex-row justify-between items-center">
-            <View className="flex-row items-center">
-              <View className="w-[18px] h-[18px]  rounded-full mr-[5%] justify-center items-center">
-                <Image
-                  source={{ uri: service.avatarImage }}
-                  className="w-full h-full rounded-full"
-                  resizeMode="cover"
+              <TouchableOpacity onPress={() => setLiked((prev) => !prev)}>
+                <Ionicons
+                  name={liked ? "heart" : "heart-outline"}
+                  size={24}
+                  color={liked ? "#FF0000" : "#666"}
                 />
-              </View>
-              <Text className="text-xs text-[#060605] font-poppinsMedium ">
-                {service.providerName}
-              </Text>
+              </TouchableOpacity>
             </View>
 
-            <View className="flex-row items-center">
-              <Ionicons name="star" size={12} color="#FFA500" />
-              <Text className=" font-poppins text-xs text-[#1B1B25] ml-[1%]">
-                {service.rating}({442})
+            {/* Price and Distance */}
+            <View className="flex-row justify-between items-center mb-[2%]">
+              <Text className="text-xs font-poppinsMedium text-[#1B1B25]">
+                {service.price}
               </Text>
+              <View className="flex-row items-center">
+                <Ionicons name="location-outline" size={10} color="#000" />
+                <Text className="text-xs font-poppinsMedium text-[#1B1B25] ml-[1%]">
+                  {service.distance}
+                </Text>
+              </View>
+            </View>
+
+            {/* Provider and Rating */}
+            <View className="flex-row justify-between items-center">
+              <View className="flex-row items-center">
+                <View className="w-[18px] h-[18px]  rounded-full mr-[5%] justify-center items-center">
+                  <Image
+                    source={{ uri: service.avatarImage }}
+                    className="w-full h-full rounded-full"
+                    resizeMode="cover"
+                  />
+                </View>
+                <Text className="text-xs text-[#060605] font-poppinsMedium ">
+                  {service.providerName}
+                </Text>
+              </View>
+
+              <View className="flex-row items-center">
+                <Ionicons name="star" size={12} color="#FFA500" />
+                <Text className=" font-poppins text-xs text-[#1B1B25] ml-[1%]">
+                  {service.rating}({442})
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View className="flex-1 bg-white">

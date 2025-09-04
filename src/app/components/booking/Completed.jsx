@@ -4,7 +4,6 @@ import categorizedServices from "../fakeData/tabs/home/CategorizedServices";
 import { scale, verticalScale } from "../adaptiveness/adaptiveness";
 import { useState } from "react";
 import ServiceModal from "./modal/ServiceModal";
-import { router } from "expo-router";
 function Completed() {
   // Flatten all services from all categories
   const allServices = categorizedServices.flatMap((category) => category.data);
