@@ -4,7 +4,7 @@ import categorizedServices from "../fakeData/tabs/home/CategorizedServices";
 import { scale, verticalScale } from "../adaptiveness/adaptiveness";
 import CancelBookingModal from "./modal/CancelBookingModal";
 import { useState } from "react";
-import HairCutServiceModal from "./modal/ServiceModal";
+import ServiceModal from "./modal/ServiceModal";
 import { router } from "expo-router";
 function Request() {
   // Flatten all services from all categories
@@ -51,9 +51,6 @@ function Request() {
               <Text className="font-poppinsSemiBold text-base text-[#1B1B25] mb-[2%]">
                 {service.serviceName}
               </Text>
-              {/* <TouchableOpacity>
-                <Ionicons name="heart-outline" size={24} color="#000" />
-              </TouchableOpacity> */}
               <View className="bg-white mt-[1%]">
                 <Text className="text-xs font-poppinsMedium p-[1%] text-[#484847]">
                   {service.price}
@@ -105,10 +102,11 @@ function Request() {
                 </TouchableOpacity>
               </View>
             </View>
-            <HairCutServiceModal
+            <ServiceModal
               visible={showServiceModal}
               onClose={() => setShowServiceModal(false)}
               service={service}
+              showRating={false}
             />
             <CancelBookingModal
               visible={showCancelModal}

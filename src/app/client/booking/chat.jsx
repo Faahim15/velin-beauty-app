@@ -18,46 +18,15 @@ import {
 } from "../../components/adaptiveness/adaptiveness";
 import buttonStyles from "../../util/styles";
 import { router } from "expo-router";
+import messages from "../../components/fakeData/tabs/chat/Messages";
+import AttachButton from "../../components/booking/chat/AttachButton";
 function ChatScreen() {
   const [message, setMessage] = useState("");
-
-  const messages = [
-    {
-      id: 1,
-      text: "Hello, good morning :)",
-      time: "11:20 PM",
-      isUser: true,
-      isRead: true,
-    },
-    {
-      id: 2,
-      text: "Good morning, anything we can help at Plush Beauty Lounge Salon?",
-      time: "11:21 PM",
-      isUser: false,
-    },
-    {
-      id: 3,
-      text: "This look awesome 😍",
-      time: "",
-      isUser: true,
-      isRead: true,
-    },
-    {
-      id: 4,
-      text: "",
-      time: "",
-      isUser: true,
-      hasImage: true,
-      isRead: true,
-    },
-    {
-      id: 5,
-      text: "I would like to book an appointment at 2:30 PM today.",
-      time: "11:20 PM",
-      isUser: true,
-      isRead: true,
-    },
-  ];
+const handleFileSelected = (file) => {
+  console.log('Selected file:', file);
+  // Handle the selected file here
+  // file object contains: { uri, type, name, size, mimeType? }
+};
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -174,9 +143,8 @@ function ChatScreen() {
 
         {/* Input Area */}
         <View className="flex-row items-center px-[4%] py-[3%] bg-white border-t border-[#E8E8E9]">
-          <TouchableOpacity className="mr-[3%]">
-            <Ionicons name="attach" size={24} color="#ADB3BC" />
-          </TouchableOpacity>
+      
+          <AttachButton onFileSelected={handleFileSelected} />
 
           <View className="flex-1 flex-row items-center bg-[#F0F3F6] rounded-full px-[4%] py-[2.5%]">
             <TextInput

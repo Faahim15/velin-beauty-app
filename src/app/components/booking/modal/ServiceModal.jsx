@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,15 +6,19 @@ import {
   Modal,
   Image,
   Pressable,
+  TextInput,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
-const HairCutServiceModal = ({ visible, onClose, service }) => {
+import StarRating from "../view/Rating";
+import Button from "../view/Button";
+import { router } from "expo-router";
+import FormatDate from "../../../util/formatDate";
+const ServiceModal = ({ visible, onClose, service, showRating = true }) => {
   // Update modal visibility when props change
-  React.useEffect(() => {
+  useEffect(() => {
     setIsServiceModalVisible(visible);
   }, [visible]);
-
+  // console.log("showRating", showRating);
   const [isServiceModalVisible, setIsServiceModalVisible] = useState(false);
 
   const handleCancel = () => {
@@ -33,7 +37,13 @@ const HairCutServiceModal = ({ visible, onClose, service }) => {
     // Handle view action here
     console.log("View service details");
   };
+  //rating handlers
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
 
+  const handleStarPress = (starIndex) => {
+    setRating(starIndex + 1);
+  };
   return (
     <Modal
       animationType="slide"
@@ -43,12 +53,12 @@ const HairCutServiceModal = ({ visible, onClose, service }) => {
     >
       {/* Backdrop */}
       <Pressable
-        className="flex-1 bg-black/50 justify-end"
+        className="flex-1 w-full bg-black/50 justify-center px-[6%] items-center "
         onPress={handleClose}
       >
         {/* Modal Content */}
         <Pressable
-          className="bg-white rounded-t-[20px] px-[6%] py-[4%]"
+          className="bg-white w-full rounded-t-[20px] px-[6%] py-[4%]"
           onPress={() => {}} // Prevent modal from closing when tapping inside
         >
           {/* Header */}
@@ -108,6 +118,7 @@ const HairCutServiceModal = ({ visible, onClose, service }) => {
 
           {/* Service Details */}
           <View className="mb-[6%]">
+            {/* price */}
             <View className="flex-row justify-between py-[2%]">
               <Text className=" font-poppinsMedium text-sm text-black ">
                 Price
@@ -116,7 +127,7 @@ const HairCutServiceModal = ({ visible, onClose, service }) => {
                 {service.price}
               </Text>
             </View>
-
+            {/* location */}
             <View className="flex-row justify-between py-[2%]">
               <Text className="font-poppinsMedium text-sm text-black ">
                 Location
@@ -125,19 +136,67 @@ const HairCutServiceModal = ({ visible, onClose, service }) => {
                 XYZ Street
               </Text>
             </View>
-
+            {/* time */}
             <View className="flex-row justify-between py-[2%]">
               <Text className="font-poppinsMedium text-sm text-black ">
-                Rating
+                Time
               </Text>
-              <View className="flex-row items-center">
-                <Ionicons name="star" size={16} color="#FDAF07" />
-                <Text className="font-poppins text-sm text-black ml-1">
-                  {service.rating}
-                </Text>
-                <Text className="text-gray-500 ml-1">(445)</Text>
-              </View>
+              <Text className="font-poppins text-sm text-black">
+                3:00 PM - 11:00 PM
+              </Text>
             </View>
+            {/* date */}
+            <View className="flex-row justify-between py-[2%]">
+              <Text className="font-poppinsMedium text-sm text-black ">
+                Date
+              </Text>
+              <Text className="font-poppins text-sm text-black">
+                {FormatDate(new Date())}
+              </Text>
+            </View>
+
+            {/* Reviews and Rating */}
+
+            {showRating && (
+              <View>
+                <View className="flex-row justify-between py-[2%]">
+                  <Text className="font-poppinsMedium text-sm text-black ">
+                    Rating
+                  </Text>
+                  <StarRating
+                    rating={rating}
+                    handleStarPress={handleStarPress}
+                  />
+                </View>
+                {rating > 0 && (
+                  <View>
+                    <TextInput
+                      style={{ textAlignVertical: "top" }}
+                      placeholder="Add a review"
+                      placeholderTextColor="#898989"
+                      className="min-h-[100px] text-black font-poppins border-[0.2px] px-[2%] py-[2%] border-black rounded"
+                      multiline
+                      editable={rating > 0 ? true : false}
+                      value={review}
+                      onChangeText={setReview}
+                    />
+                  </View>
+                )}
+                <View className="mx-[18%]">
+                  <Button
+                    buttonStyle={{
+                      backgroundColor: "#fff",
+                      textColor: "#0D8D01",
+                      borderColor: "#0D8D01",
+                      reviewText: review,
+                    }}
+                    onPress={() => router.back()}
+                  >
+                    Submit
+                  </Button>
+                </View>
+              </View>
+            )}
           </View>
         </Pressable>
       </Pressable>
@@ -145,4 +204,4 @@ const HairCutServiceModal = ({ visible, onClose, service }) => {
   );
 };
 
-export default HairCutServiceModal;
+export default ServiceModal;
