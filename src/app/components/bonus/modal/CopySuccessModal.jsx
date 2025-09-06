@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity } from "react-native";
+import { View, Text, Modal, TouchableOpacity, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const CopySuccessModal = ({ visible, onClose, referralCode }) => {
@@ -17,31 +17,31 @@ const CopySuccessModal = ({ visible, onClose, referralCode }) => {
           </View>
 
           {/* Title */}
-          <Text className="text-gray-900 text-xl font-bold mb-[2%] text-center">
+          <Text className="text-gray-900 text-xl font-poppinsBold mb-[2%] text-center">
             Copied!
           </Text>
 
           {/* Description */}
-          <Text className="text-gray-600 text-base text-center mb-[6%] leading-[22px]">
+          <Text className="text-gray-600 font-poppins text-base text-center mb-[6%] leading-[22px]">
             Referral code copied to clipboard
           </Text>
 
           {/* Referral Code Display */}
           <View className="bg-gray-100 rounded-[12px] px-[6%] py-[3%] mb-[8%]">
-            <Text className="text-gray-800 font-bold text-lg tracking-wider">
+            <Text className="text-gray-800 font-poppinsBold text-lg tracking-wider">
               {referralCode}
             </Text>
           </View>
 
           {/* Close Button */}
-          <TouchableOpacity
+          <Pressable
             className="bg-black rounded-[12px] px-[8%] py-[3%] w-full"
             onPress={onClose}
           >
-            <Text className="text-white font-semibold text-base text-center">
+            <Text className="text-white font-poppinsSemiBold text-base text-center">
               Done
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </Modal>
