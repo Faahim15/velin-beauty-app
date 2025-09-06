@@ -17,7 +17,7 @@ const InvitedFriendsList = () => {
       joinDate: "Joined 22 January 2025",
       points: "12,650 PTS",
       avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616b612b3c5?w=150&h=150&fit=crop&crop=face",
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face",
     },
     {
       id: "3",
@@ -86,7 +86,7 @@ const InvitedFriendsList = () => {
   ];
 
   const renderUserItem = ({ item }) => (
-    <View className="bg-gray-100 mx-[4%] mb-[2%] rounded-lg px-[4%] py-[3%] flex-row items-center">
+    <View className="bg-[#F4F0E9] mx-[6.75%] mb-[2%] rounded-lg px-[4%] py-[3%] flex-row items-center">
       <Image
         source={{ uri: item.avatar }}
         className="w-[50px] h-[50px] rounded-full mr-[4%]"
@@ -94,14 +94,18 @@ const InvitedFriendsList = () => {
       />
 
       <View className="flex-1">
-        <Text className="text-black text-lg font-semibold mb-[1%]">
+        <Text className="text-[#1B1B25] text-base font-poppinsSemiBold mb-[1%]">
           {item.name}
         </Text>
-        <Text className="text-gray-600 text-sm">{item.joinDate}</Text>
+        <Text className="font-poppinsMedium text-[#1B1B25]  text-xs ">
+          {item.joinDate}
+        </Text>
       </View>
 
       <View className="items-end">
-        <Text className="text-black text-sm font-medium">{item.points}</Text>
+        <Text className="text-[#1B1B25] text-xs font-poppins">
+          {item.points}
+        </Text>
       </View>
     </View>
   );

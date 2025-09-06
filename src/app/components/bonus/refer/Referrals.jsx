@@ -7,11 +7,12 @@ import * as Clipboard from "expo-clipboard";
 import CopySuccessModal from "../modal/CopySuccessModal";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
 import { useState } from "react";
+import ShareModal from "../modal/ShareModal";
 export default function Referrals() {
   const referralCode = "ANDREW56G5";
   const [copied, setCopied] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
+  const [showShareModal, setShowShareModal] = useState(false);
   const handleCopyCode = async () => {
     try {
       await Clipboard.setStringAsync(referralCode);
@@ -25,8 +26,7 @@ export default function Referrals() {
   };
 
   const handleShareReferralCode = () => {
-    // Handle sharing functionality
-    console.log("Share referral code");
+    setShowShareModal(true);
   };
 
   return (
@@ -119,6 +119,10 @@ export default function Referrals() {
         visible={showModal}
         onClose={() => setShowModal(false)}
         referralCode={referralCode}
+      />
+      <ShareModal
+        visible={showShareModal}
+        onClose={() => setShowShareModal(false)}
       />
     </View>
   );
