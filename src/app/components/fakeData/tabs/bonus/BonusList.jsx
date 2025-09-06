@@ -1,0 +1,81 @@
+import {
+  welcomeIcon,
+  vipCustomerIcon,
+  loyalCustomerIcon,
+  newCustomerIcon,
+  begginerIcon,
+  masterIcon,
+} from "../../../../../../assets/constant/icons/icon";
+const customerTiers = [
+  {
+    id: 1,
+    title: "New Customer",
+    requirements: "(Requirements: 0~4) completed orders.",
+    reward: "Reward: none.",
+    progress: 70,
+    isUnlocked: true,
+    isClaimed: true,
+    icon: begginerIcon,
+  },
+  {
+    id: 2,
+    title: "New Customer",
+    requirements: "(Requirements: 0~4) completed orders.",
+    reward: "Reward: none.",
+    progress: 100,
+    isUnlocked: true,
+    isClaimed: false,
+    icon: begginerIcon,
+  },
+  {
+    id: 3,
+    title: "Regular Customer",
+    requirements: "(Requirements: 5~9) completed orders.",
+    reward: "Reward: 5% off next order",
+    progress: 0.1,
+    isUnlocked: false,
+    isClaimed: false,
+    icon: newCustomerIcon,
+  },
+  {
+    id: 4,
+    title: "Loyal Customer",
+    requirements: "(Requirements: 10~19) completed orders.",
+    reward: "Reward: 10% off next order.",
+    progress: 0.1,
+    isUnlocked: false,
+    isClaimed: false,
+    icon: loyalCustomerIcon,
+  },
+  {
+    id: 5,
+    title: "VIP Customer",
+    requirements: "(Requirements: 20+) completed orders.",
+    reward: "Reward: 20% off 1 order.",
+    progress: 0.1,
+    isUnlocked: false,
+    isClaimed: false,
+    icon: vipCustomerIcon,
+  },
+];
+export const welcomeBonus = [
+  {
+    id: 1,
+    title: "Welcome to Velusy",
+    requirements: "Velusy gives you 10 CHF off your first order (min. 70 CHF)",
+    isUnlocked: true,
+    isClaimed: false,
+    icon: welcomeIcon,
+  },
+  {
+    id: 2,
+    title: "Master Pro",
+    requirements:
+      "(50+ orders or 10,000 CHF) – 10% commission, 2 orders without commission.",
+    progress: 0.1,
+    isUnlocked: false,
+    isClaimed: false,
+    icon: masterIcon,
+  },
+];
+export default customerTiers;

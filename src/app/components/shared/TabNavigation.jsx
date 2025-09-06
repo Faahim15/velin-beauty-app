@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { StatusBar } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { scale, verticalScale } from "../adaptiveness/adaptiveness";
 import LevelUp from "../bonus/LevelUp";
 import BonusTab from "../bonus/BonusTab";

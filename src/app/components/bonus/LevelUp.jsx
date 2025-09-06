@@ -1,8 +1,9 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import UserProfile from "./UserProfile";
 import { Ionicons } from "@expo/vector-icons";
 import bonusItems from "../fakeData/tabs/bonus/BonusItem";
-import { verticalScale } from "../adaptiveness/adaptiveness";
+import { SvgXml } from "react-native-svg";
+import { scale, verticalScale } from "../adaptiveness/adaptiveness";
 export default function LevelUp() {
   const renderBonusItem = ({ item, index }) => {
     const isCompleted = item.status === "completed";
@@ -65,14 +66,12 @@ export default function LevelUp() {
               >
                 {item.title}
               </Text>
-              {/* <Text
-                className={`font-bold ${
-                  isCompleted ? "text-green-500" : "text-gray-400"
-                }`}
-              >
-                {item.points}
-              </Text> */}
-              <Ionicons name={item.badge} size={24} color="#E0C168" />
+
+              <SvgXml
+                xml={item.badge}
+                height={verticalScale(24)}
+                width={scale(24)}
+              />
             </View>
 
             <Text
@@ -82,12 +81,13 @@ export default function LevelUp() {
             >
               {item.description}
             </Text>
-
-            {/* {isPending && (
-              <TouchableOpacity className="bg-green-500 rounded-lg py-[3%] mt-[3%] items-center">
-                <Text className="text-white font-semibold">Claim Bonus</Text>
-              </TouchableOpacity>
-            )} */}
+            <Text
+              className={`text-xs font-poppins mt-[1%] ${
+                isCompleted ? "text-white/80" : "text-gray-400"
+              }`}
+            >
+              {item.reward}
+            </Text>
           </View>
         </View>
       </View>
