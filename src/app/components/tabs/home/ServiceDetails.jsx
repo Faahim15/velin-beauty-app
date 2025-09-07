@@ -1,8 +1,7 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, Pressable } from "react-native";
 import { Image } from "react-native";
 import { scale, verticalScale } from "../../adaptiveness/adaptiveness";
-
+import { router } from "expo-router";
 function ServiceDetails({ service }) {
   return (
     <View className="mx-[6%] gap-[3%] mt-[3%] ">
@@ -21,7 +20,7 @@ function ServiceDetails({ service }) {
         <Text className="font-poppinsSemiBold text-base text-[#111111]">
           Location:
         </Text>
-        <Text className="font-poppins pt-[0.8%] text-sm text-[#50555C]">
+        <Text className="font-poppins pt-[0.8%] text-sm text-black">
           XYZ street
         </Text>
       </View>
@@ -30,9 +29,11 @@ function ServiceDetails({ service }) {
         <Text className="font-poppinsSemiBold text-base text-[#111111]">
           Schedule:
         </Text>
-        <Text className="font-poppins underline pt-[0.8%] text-sm text-[#50555C]">
-          View
-        </Text>
+        <Pressable onPress={() => router.push("../shared/calender")}>
+          <Text className="font-poppins underline pt-[0.8%] text-sm text-black">
+            View
+          </Text>
+        </Pressable>
       </View>
 
       {/* Contact */}
