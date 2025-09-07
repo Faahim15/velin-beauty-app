@@ -11,9 +11,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { scale } from "../../../components/adaptiveness/adaptiveness";
 import BaseHeader from "../../../components/shared/BaseHeader";
 import StatusLegend from "../../../components/shared/StatusLegend";
+import ScheduleTable from "../../../components/shared/ScheduleTable";
 
 const CalendarScreen = () => {
-  const [selectedDate, setSelectedDate] = useState("2025-01-23");
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
 
   // Calendar marked dates
   const markedDates = {
@@ -102,7 +105,7 @@ const CalendarScreen = () => {
             }}
           />
         </View>
-
+        <ScheduleTable />
         {/* Day Navigation */}
         {/* <ScrollView
           contentContainerStyle={{ paddingRight: scale(100) }}
