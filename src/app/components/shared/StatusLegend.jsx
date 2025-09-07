@@ -18,9 +18,9 @@ export default function StatusLegend() {
   ];
 
   return (
-    <View className=" mx-[6%] mt-[2.36%]">
+    <View className=" mx-[6%]  mt-[2.36%]">
       {/* Status Legend */}
-      <View className="flex-row shadow-sm rounded-lg  bg-[#F4F0E9] flex-wrap justify-between mb-[4%]">
+      <View className="flex-row shadow-sm rounded-lg px-2 bg-[#F4F0E9] flex-wrap justify-between mb-[4%]">
         {statusItems.map((item, index) => (
           <View
             key={index}
@@ -28,15 +28,16 @@ export default function StatusLegend() {
           >
             <View
               style={{ width: scale(16), height: verticalScale(16) }}
-              className={`rounded ${item.color} mr-[4%]`}
+              className={`rounded  ${item.color} mr-[4%]`}
             />
-            <Text className="text-[#525252] font-poppins text-sm">
+            <Text className="text-[#525252]  font-poppins text-sm">
               {item.label}
             </Text>
             {item.hasIcon && (
               <TouchableOpacity
-                className="flex-row overflow-hidden gap-[2%]"
+                className="flex-row  overflow-hidden gap-[2%]"
                 onPress={() => setShowTitle((prev) => !prev)}
+                // style={{ maxWidth: verticalScale(190) }}
               >
                 <Ionicons
                   name="information-circle-outline"
@@ -47,7 +48,7 @@ export default function StatusLegend() {
                 {showTitle && (
                   <View
                     style={{
-                      maxWidth: scale(180),
+                      maxWidth: scale(190),
                       paddingTop: verticalScale(1),
                     }}
                     className=""
